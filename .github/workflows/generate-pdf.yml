@@ -1,0 +1,45 @@
+name: Generate pdf
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  generate-pdf:
+    name: Generate pdf
+    if: contains(github.event.head_commit.message, 'skip ci') == false
+    runs-on: [ ubuntu-latest ]
+    container: claudiugeorgiu/python-texlive:2020
+
+    steps:
+      - name: Install git
+        run: |
+          apt update && apt install -y git
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15
+
+      - name: Install ghr
+        run: |
+          go get github.com/tcnksm/ghr
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Generate pdf
+        run: |
+          latexmk -pdf -pdflatex="xelatex -interaction=batchmode %O %S" -gg -jobname="tesi" "tesi.tex"
+          makeglossaries tesi
+          latexmk -pdf -pdflatex="xelatex -interaction=batchmode %O %S" -gg -jobname="tesi" "tesi.tex"
+          mkdir -p /tmp/pdf_files/
+          mv *.pdf /tmp/pdf_files/
+
+      # Executed on push or when the workflow is triggered manually.
+      - name: Update the latest release
+        run: |
+          # Update the latest release.
+          ghr -t ${{ secrets.GITHUB_TOKEN }} \
+            -b "${{ github.event.head_commit.message }}" \
+            -recreate latest /tmp/pdf_files/
