@@ -2,7 +2,6 @@
 
 > RiskInDroid: analisi del rischio di applicazioni Android
 
-[![Generate pdf](https://github.com/ClaudiuGeorgiu/TesiMagistrale/workflows/Generate%20pdf/badge.svg)](https://github.com/ClaudiuGeorgiu/TesiMagistrale/actions?query=workflow%3A%22Generate+pdf%22)
 [![Download pdf](https://img.shields.io/badge/download-PDF-orange.svg)](https://github.com/ClaudiuGeorgiu/TesiMagistrale/releases/download/latest/tesi.pdf)
 [![Overleaf](https://img.shields.io/badge/open-Overleaf-success.svg)](https://www.overleaf.com/read/pvczcqxtdygx)
 
